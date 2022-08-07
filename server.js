@@ -43,12 +43,11 @@ app.get("/api/notes", (req, res) => {
 //POST method to save data on json file
 app.post("/api/notes", (req, res) => {
   let content = [];
+   
       let noteData = JSON.parse(fs.readFileSync("./db/db.json"))
-     /////
-
-console.log(noteData)      
+           console.log(noteData)      
        noteData.push(JSON.stringify(req.body));
-console.log(noteData)
+      console.log(noteData)
        console.log(JSON.stringify(req.body))
        fs.writeFileSync("./db/db.json",JSON.stringify(noteData));
       }

@@ -40,7 +40,7 @@ const saveNote = (note) =>
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
-     });
+  });
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -65,16 +65,14 @@ const renderActiveNote = () => {
     noteText.value = '';
   }
 };
-var i=1;
+
 const handleNoteSave = () => {
-  //for(var i= 1; i=noteData.lenght,i++){
   const newNote = {
-    id : i++,
     title: noteTitle.value,
     text: noteText.value,
   };
   saveNote(newNote).then(() => {
-      getAndRenderNotes();
+    getAndRenderNotes();
     renderActiveNote();
   });
 };
@@ -121,7 +119,6 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
-console.log(jsonNotes)   /////
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
