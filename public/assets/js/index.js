@@ -75,8 +75,12 @@ const handleNoteSave = () => {
     text: noteText.value,
   };
   saveNote(newNote).then(() => {
+    
       getAndRenderNotes();
     renderActiveNote();
+    
+  }).finally(()=>{
+    location.reload();
   });
 };
 
@@ -94,9 +98,13 @@ const handleNoteDelete = (e) => {
   
 
   deleteNote(noteId).then(() => {
+    
     getAndRenderNotes();
     renderActiveNote();
-  });
+    
+  }).finally(()=>{
+    location.reload();
+  })
 };
 
 // Sets the activeNote and displays it

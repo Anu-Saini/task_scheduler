@@ -42,22 +42,22 @@ app.get("/api/notes", (req, res) => {
 //POST method to save data on json file
 app.post("/api/notes", (req, res) => {
   let content = [];
-   
       let noteData = JSON.parse(fs.readFileSync("./db/db.json"))
            console.log(noteData)      
-       noteData.push(JSON.parse(req.body));
+       noteData.push(JSON.stringify(req.body));
        fs.writeFileSync("./db/db.json",JSON.stringify(noteData));
       }
   );
 
 
 //DELETE method to delete a particular data from .json file
-app.delete('/api/notes/', (req, res) => {
+app.delete('/api/notes/:id', (req, res) => {
   let noteData = JSON.parse(fs.readFileSync("./db/db.json"))
-  const deleteId = req.query.id;
-  console.log(deleteId)
-  noteData = noteData.filter(notes=>notes.id!=deleteId);
-  fs.writeFileSync("./db/db.json",JSON.stringify(noteData));
+  const deleteId = req.params.id;
+  
+  noteData = noteData.filter(notes=> JSON.parse(notes).id != deleteId);
+  console.log(noteData)
+    fs.writeFileSync("./db/db.json",JSON.stringify(noteData));
     
 });
 
