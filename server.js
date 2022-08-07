@@ -35,7 +35,6 @@ app.get("/api/notes", (req, res) => {
       console.error(err);
       return;
     }
-    console.log(data);
     res.send(data);
   });
 });
@@ -43,29 +42,24 @@ app.get("/api/notes", (req, res) => {
 //POST method to save data on json file
 app.post("/api/notes", (req, res) => {
   let content = [];
+   
       let noteData = JSON.parse(fs.readFileSync("./db/db.json"))
-     /////
-
-console.log(noteData)      
-       noteData.push(JSON.stringify(req.body));
-console.log(noteData)
-       console.log(JSON.stringify(req.body))
+           console.log(noteData)      
+       noteData.push(JSON.parse(req.body));
        fs.writeFileSync("./db/db.json",JSON.stringify(noteData));
       }
   );
 
 
-// //DELETE method to delete a particular data from .json file
-// app.delete('/api/notes/', (req, res) => {
-//   fs.readFile('./db/db.json', 'utf-8',(err,data)=>{
-//    if(err){
-//      console.error(err);
-//      return;
-//    }
-//    console.log(data)
-//    res.send(data);
-//   });
-//   });
+//DELETE method to delete a particular data from .json file
+app.delete('/api/notes/', (req, res) => {
+  let noteData = JSON.parse(fs.readFileSync("./db/db.json"))
+  const deleteId = req.query.id;
+  console.log(deleteId)
+  noteData = noteData.filter(notes=>notes.id!=deleteId);
+  fs.writeFileSync("./db/db.json",JSON.stringify(noteData));
+    
+});
 
 // app.get('/api/ts', (req, res) => res.json(notesData));
 

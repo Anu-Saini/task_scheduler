@@ -3,6 +3,7 @@ let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
+var localId = 0 ;
 
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
@@ -65,11 +66,11 @@ const renderActiveNote = () => {
     noteText.value = '';
   }
 };
-var i=1;
+
 const handleNoteSave = () => {
   //for(var i= 1; i=noteData.lenght,i++){
   const newNote = {
-    id : i++,
+    id : localId + 1,
     title: noteTitle.value,
     text: noteText.value,
   };
@@ -85,11 +86,12 @@ const handleNoteDelete = (e) => {
   e.stopPropagation();
 
   const note = e.target;
-  const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
+  const noteId = JSON.parse(JSON.parse(note.parentElement.getAttribute('data-note'))).id
 
   if (activeNote.id === noteId) {
     activeNote = {};
   }
+  
 
   deleteNote(noteId).then(() => {
     getAndRenderNotes();
@@ -121,6 +123,7 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
+console.log(jsonNotes)   /////
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
@@ -161,7 +164,11 @@ const renderNoteList = async (notes) => {
   }
 
   jsonNotes.forEach((note) => {
-    const li = createLi(note.title);
+    const li = createLi(JSON.parse(note).title);
+    if(JSON.parse(note).id > localId)
+   {
+    localId=JSON.parse(note).id;
+   } 
     li.dataset.note = JSON.stringify(note);
 
     noteListItems.push(li);
